@@ -1,0 +1,48 @@
+# Binaries
+/bin/
+/ginmy
+*.exe
+*.exe~
+*.dll
+*.dll~
+*.so
+*.dylib
+
+# Test / coverage artifacts
+*.test
+*.out
+*.cover
+coverage.out
+coverage.html
+coverage.txt
+
+# Go workspace
+go.work
+go.work.sum
+
+# Dependencies (managed by go modules)
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Env
+.env
+.env.*
+!.env.example
