@@ -5,3 +5,7 @@ type Result struct {
 	Message string `json:"message"`
 	Value   any    `json:"value"`
 }
+
+func ErrNoResult(err error) (Result, error) {
+	return Result{}, err
+}
