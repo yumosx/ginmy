@@ -8,6 +8,7 @@ package depends
 import (
 	"fmt"
 	"reflect"
+	"slices"
 	"sync"
 )
 
@@ -134,15 +135,13 @@ func MustResolveIn[T any](scope *Scope, dep *Dep[T]) T {
 // resolve 是统一的解析入口，按 lifetime 走不同的缓存路径。
 func (c *Container) resolve(k key, lifetime Lifetime, scope *Scope, ctx *resolveCtx) (any, error) {
 	// 1) 循环依赖检测：链上已出现过相同 key。
-	for _, prev := range ctx.chain {
-		if prev == k {
-			chain := make([]string, 0, len(ctx.chain)+1)
-			for _, p := range ctx.chain {
-				chain = append(chain, p.String())
-			}
-			chain = append(chain, k.String())
-			return nil, &CircularError{Chain: chain}
+	if slices.Contains(ctx.chain, k) {
+		chain := make([]string, 0, len(ctx.chain)+1)
+		for _, p := range ctx.chain {
+			chain = append(chain, p.String())
 		}
+		chain = append(chain, k.String())
+		return nil, &CircularError{Chain: chain}
 	}
 	newCtx := &resolveCtx{
 		chain: append(append([]key(nil), ctx.chain...), k),
